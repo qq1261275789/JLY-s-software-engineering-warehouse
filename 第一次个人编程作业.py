@@ -8,125 +8,81 @@ def 输入():
     else:
         return None
 
-def 转换(s):
+def 转换中的小函数(s,k,w):
+    x=0
+    for i in range(w,len(s[k])):
+        if s[k][i]=='一':
+            x=x+1
+        elif s[k][i]=='二':
+            x=x+2
+        elif s[k][i]=='三':
+            x=x+3
+        elif s[k][i]=='四':
+            x=x+4
+        elif s[k][i]=='五':
+            x=x+5
+        elif s[k][i]=='六':
+            x=x+6
+        elif s[k][i]=='七':
+            x=x+7
+        elif s[k][i]=='八':
+            x=x+8
+        elif s[k][i]=='九':
+            x=x+9
+        elif s[k][i]=='十':
+            if i==w:
+                x=(x+1)*10
+            else:
+                x=x*10
+        elif s[k][i]=='百' or s[k][i]=='千' or s[k][i]=='万':
+            if i+3<len(s[k]):
+                if (s[k][i]=='万' and s[k][i+2]=='千') or (s[k][i]=='千' and s[k][i+2]=='百') or (s[k][i]=='百' and s[k][i+2]=='十'):
+                    x=x*10
+                elif (s[k][i]=='万' and s[k][i+2]=='百') or (s[k][i]=='万' and s[k][i+3]=='百') or (s[k][i]=='千' and s[k][i+2]=='十') or (s[k][i]=='千' and s[k][i+3]=='十'):
+                    x=x*100
+                elif (s[k][i]=='万' and s[k][i+2]=='十') or (s[k][i]=='万' and s[k][i+3]=='十'):
+                    x=x*1000
+            elif s[k][i]=='万' and i+5>=len(s[k]):
+                x=x*10000
+            elif s[k][i]=='千' and i+4>=len(s[k]):
+                x=x*1000
+            elif s[k][i]=='百' and i+3>=len(s[k]):
+                x=x*100
+    return x
+
+def 汉字转数字(s):
     x=0
     if len(s)<=2:
         s[1]=s[1]
     elif s[0]=='整数' or s[0]=='如果':
+        k=3
         if s[3][0]=='负':
-            for i in range(1,len(s[3])):
-                if s[3][i]=='一':
-                    x=x+1
-                elif s[3][i]=='二':
-                    x=x+2
-                elif s[3][i]=='三':
-                    x=x+3
-                elif s[3][i]=='四':
-                    x=x+4
-                elif s[3][i]=='五':
-                    x=x+5
-                elif s[3][i]=='六':
-                    x=x+6
-                elif s[3][i]=='七':
-                    x=x+7
-                elif s[3][i]=='八':
-                    x=x+8
-                elif s[3][i]=='九':
-                    x=x+9
-                elif s[3][i]=='十' or s[3][i]=='百' or s[3][i]=='千' or s[3][i]=='万':
-                    if i==1:
-                        x=(x+1)*10
-                    else:
-                        x=x*10
+            w=1
+            x=转换中的小函数(s,k,w)
             x=x*(-1)
         else:
             if s[3]=='零':
                 x=0
             else:
-                for i in range(len(s[3])):
-                    if s[3][i]=='一':
-                        x=x+1
-                    elif s[3][i]=='二':
-                        x=x+2
-                    elif s[3][i]=='三':
-                        x=x+3
-                    elif s[3][i]=='四':
-                        x=x+4
-                    elif s[3][i]=='五':
-                        x=x+5
-                    elif s[3][i]=='六':
-                        x=x+6
-                    elif s[3][i]=='七':
-                        x=x+7
-                    elif s[3][i]=='八':
-                        x=x+8
-                    elif s[3][i]=='九':
-                        x=x+9
-                    elif s[3][i]=='十' or s[3][i]=='百' or s[3][i]=='千' or s[3][i]=='万':
-                        if i==0:
-                            x=(x+1)*10
-                        else:
-                            x=x*10
+                w=0
+                x=转换中的小函数(s,k,w)
         s[3]=x
     elif s[1]=='减少' or s[1]=='增加':
+        k=2
         if s[2][0]=='负':
-            for i in range(1,len(s[2])):
-                if s[2][i]=='一':
-                    x=x+1
-                elif s[2][i]=='二':
-                    x=x+2
-                elif s[2][i]=='三':
-                    x=x+3
-                elif s[2][i]=='四':
-                    x=x+4
-                elif s[2][i]=='五':
-                    x=x+5
-                elif s[2][i]=='六':
-                    x=x+6
-                elif s[2][i]=='七':
-                    x=x+7
-                elif s[2][i]=='八':
-                    x=x+8
-                elif s[2][i]=='九':
-                    x=x+9
-                elif s[2][i]=='十' or s[2][i]=='百' or s[2][i]=='千' or s[2][i]=='万':
-                    if i==1:
-                        x=(x+1)*10
-                    else:
-                        x=x*10
+            w=1
+            x=转换中的小函数(s,k,w)
             x=x*(-1)
         else:
             if s[2]=='零':
                 x=0
             else:
-                for i in range(len(s[2])):
-                    if s[2][i]=='一':
-                        x=x+1
-                    elif s[2][i]=='二':
-                        x=x+2
-                    elif s[2][i]=='三':
-                        x=x+3
-                    elif s[2][i]=='四':
-                        x=x+4
-                    elif s[2][i]=='五':
-                        x=x+5
-                    elif s[2][i]=='六':
-                        x=x+6
-                    elif s[2][i]=='七':
-                        x=x+7
-                    elif s[2][i]=='八':
-                        x=x+8
-                    elif s[2][i]=='九':
-                        x=x+9
-                    elif s[2][i]=='十' or s[2][i]=='百' or s[2][i]=='千' or s[2][i]=='万':
-                        if i==0:
-                            x=(x+1)*10
-                        else:
-                            x=x*10
+                w=0
+                x=转换中的小函数(s,k,w)
         s[2]=x
     return s
 
-def 转换2(i):
+def 数字转汉字(i):
     a[i][3]=''
     j=0
     if a[i][1]<=10 and a[i][1]>=0:
@@ -173,32 +129,31 @@ def 转换2(i):
                 a[i][3]=''.join(['八',a[i][3]])
             elif b%10==9:
                 a[i][3]=''.join(['九',a[i][3]])
-            else:
-                a[i][3]=''.join(['',a[i][3]])
             b=int(b/10)
             if b==0:
                 break
             elif b!=0:
-                if j==0:
-                    a[i][3]=''.join(['十',a[i][3]])
-                elif j==1:
-                    a[i][3]=''.join(['百',a[i][3]])
-                elif j==2:
-                    a[i][3]=''.join(['千',a[i][3]])
-                elif j==3:
-                    a[i][3]=''.join(['万',a[i][3]])
-                elif j==4:
-                    a[i][3]=''.join(['十',a[i][3]])
-                elif j==5:
-                    a[i][3]=''.join(['百',a[i][3]])
-                elif j==6:
-                    a[i][3]=''.join(['千',a[i][3]])
-                elif j==7:
-                    a[i][3]=''.join(['亿',a[i][3]])
-                elif j==8:
-                    a[i][3]=''.join(['十',a[i][3]])
-                elif j==9:
-                    a[i][3]=''.join(['百',a[i][3]])
+                if b%10!=0:
+                    if j==0:
+                        a[i][3]=''.join(['十',a[i][3]])
+                    elif j==1:
+                        a[i][3]=''.join(['百',a[i][3]])
+                    elif j==2:
+                        a[i][3]=''.join(['千',a[i][3]])
+                    elif j==3:
+                        a[i][3]=''.join(['万',a[i][3]])
+                    elif j==4:
+                        a[i][3]=''.join(['十',a[i][3]])
+                    elif j==5:
+                        a[i][3]=''.join(['百',a[i][3]])
+                    elif j==6:
+                        a[i][3]=''.join(['千',a[i][3]])
+                    elif j==7:
+                        a[i][3]=''.join(['亿',a[i][3]])
+                    elif j==8:
+                        a[i][3]=''.join(['十',a[i][3]])
+                    elif j==9:
+                        a[i][3]=''.join(['百',a[i][3]])
     elif a[i][1]<0:
         b=a[i][1]*(-1)
         for j in range(10):
@@ -220,34 +175,33 @@ def 转换2(i):
                 a[i][3]=''.join(['八',a[i][3]])
             elif b%10==9:
                 a[i][3]=''.join(['九',a[i][3]])
-            else:
-                a[i][3]=''.join(['',a[i][3]])
             b=int(b/10)
             if b==0:
                 a[i][3]=''.join(['负',a[i][3]])
                 break
             elif b!=0:
-                if j==0:
-                    a[i][3]=''.join(['十',a[i][3]])
-                elif j==1:
-                    a[i][3]=''.join(['百',a[i][3]])
-                elif j==2:
-                    a[i][3]=''.join(['千',a[i][3]])
-                elif j==3:
-                    a[i][3]=''.join(['万',a[i][3]])
-                elif j==4:
-                    a[i][3]=''.join(['十',a[i][3]])
-                elif j==5:
-                    a[i][3]=''.join(['百',a[i][3]])
-                elif j==6:
-                    a[i][3]=''.join(['千',a[i][3]])
-                elif j==7:
-                    a[i][3]=''.join(['亿',a[i][3]])
-                elif j==8:
-                    a[i][3]=''.join(['十',a[i][3]])
-                elif j==9:
-                    a[i][3]=''.join(['百',a[i][3]])
-                    
+                if b%10!=0:
+                    if j==0:
+                        a[i][3]=''.join(['十',a[i][3]])
+                    elif j==1:
+                        a[i][3]=''.join(['百',a[i][3]])
+                    elif j==2:
+                        a[i][3]=''.join(['千',a[i][3]])
+                    elif j==3:
+                        a[i][3]=''.join(['万',a[i][3]])
+                    elif j==4:
+                        a[i][3]=''.join(['十',a[i][3]])
+                    elif j==5:
+                        a[i][3]=''.join(['百',a[i][3]])
+                    elif j==6:
+                        a[i][3]=''.join(['千',a[i][3]])
+                    elif j==7:
+                        a[i][3]=''.join(['亿',a[i][3]])
+                    elif j==8:
+                        a[i][3]=''.join(['十',a[i][3]])
+                    elif j==9:
+                        a[i][3]=''.join(['百',a[i][3]])
+                        
 def 定义变量(s):
     global i,bls
     if (s[0]=='整数') and (s[2]=='等于'):
@@ -258,13 +212,13 @@ def 定义变量(s):
         else:
             for i in range(bls):
                 if a[i][0]==s[1]:
-                    a[i][0]=s[1]
                     a[i][1]=s[3]
                     break
             if (i+1)>=bls:
-                a[i+1][0]=s[1]
-                a[i+1][1]=s[3]
-                bls=bls+1
+                if a[i][0]!=s[1]:
+                    a[i+1][0]=s[1]
+                    a[i+1][1]=s[3]
+                    bls=bls+1
         i=0
         
 def 加减法(s):
@@ -289,7 +243,7 @@ def 打印(s):
     if s[0]=='看看':
         for i in range(bls):
             if s[1]==a[i][0]:
-                转换2(i)
+                数字转汉字(i)
                 print(a[i][3])
         if i>=bls:
             print('没有这个变量')
@@ -302,7 +256,7 @@ def 如果则(k,s):
     elif s[k+1]=='增加' or s[k+1]=='减少':
         for j in range(3):
             b[j]=s[j+k]
-        转换(b)
+        汉字转数字(b)
         加减法(b)
     elif s[k]=='无':
         k=k
@@ -321,6 +275,7 @@ def 使用(s):
                     if a[i][1]>s[3]:
                         k=5
                         如果则(k,s)
+                            
                     else:
                         k=8
                         如果则(k,s)
@@ -371,7 +326,7 @@ def main():
     while(1):
         s=输入()
         if s!=None:
-            s=转换(s)
+            s=汉字转数字(s)
             使用(s)
         else:
             print('结束')
