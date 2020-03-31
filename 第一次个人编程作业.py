@@ -10,6 +10,7 @@ def 输入():
 
 def 转换中的小函数(s,k,w):
     x=0
+    cuowu=0
     for i in range(w,len(s[k])):
         if s[k][i]=='一':
             x=x+1
@@ -32,6 +33,8 @@ def 转换中的小函数(s,k,w):
         elif s[k][i]=='十':
             if i==w:
                 x=(x+1)*10
+            elif i+1>=len(s[k]):
+                x=int(x%10)*10+int(x/10)*10
             else:
                 x=x*10
         elif s[k][i]=='百' or s[k][i]=='千' or s[k][i]=='万':
@@ -48,12 +51,22 @@ def 转换中的小函数(s,k,w):
                 x=x*1000
             elif s[k][i]=='百' and i+3>=len(s[k]):
                 x=x*100
+        else:
+            cuowu=1
+    if cuowu==1:
+        print('汉字的数字存在非数字的字,转换后的结果为去掉错误格式的字后的结果')
     return x
 
 def 汉字转数字(s):
     x=0
-    if len(s)<=2:
-        s[1]=s[1]
+    if s[0]=='整数' and len(s)!=4:
+        print('定义变量语句的输入格式有问题,语句长度不是4个词')
+    elif s[0]=='如果' and (len(s)<8 or len(s)>12):
+        print('如果语句的输入格式有问题,语句长度不是8-12个词')
+    elif len(s)<2:
+        print('输入的什么玩意,重新输入')
+    elif (s[1]=='减少' or s[1]=='增加') and len(s)!=3:
+        print('加减法语句的输入格式有问题,语句长度不是3个词')
     elif s[0]=='整数' or s[0]=='如果':
         k=3
         if s[3][0]=='负':
@@ -204,7 +217,11 @@ def 数字转汉字(i):
                         
 def 定义变量(s):
     global i,bls
-    if (s[0]=='整数') and (s[2]=='等于'):
+    if (s[0]=='整数') and (s[2]!='等于'):
+        print('第三个词不是等于,定义变量时必须是等于')
+    elif ((s[0]=='整数') and len(s)!=4):
+        print('定义变量语句输入格式有问题,长度不对')
+    elif (s[0]=='整数') and (s[2]=='等于'):
         if bls==0:
             a[bls][0]=s[1]
             a[bls][1]=s[3]
@@ -212,6 +229,7 @@ def 定义变量(s):
         else:
             for i in range(bls):
                 if a[i][0]==s[1]:
+                    a[i][0]=s[1]
                     a[i][1]=s[3]
                     break
             if (i+1)>=bls:
@@ -223,7 +241,9 @@ def 定义变量(s):
         
 def 加减法(s):
     global i
-    if s[1]=='减少':
+    if (s[1]=='减少' or s[1]=='增加') and len(s)!=3:
+        print('加减法语句输入格式错误')
+    elif s[1]=='减少':
         for i in range(bls):
             if s[0]==a[i][0]:
                 a[i][1]=a[i][1]-s[2]
@@ -240,13 +260,23 @@ def 加减法(s):
         
 def 打印(s):
     global i
-    if s[0]=='看看':
-        for i in range(bls):
-            if s[1]==a[i][0]:
-                数字转汉字(i)
-                print(a[i][3])
-        if i>=bls:
-            print('没有这个变量')
+    if s[0]=='看看' and len(s)!=2:
+        print('打印语句输入格式错误')
+    elif s[0]=='看看':
+        lens=len(s[1])
+        if s[1][0]=='“' and s[1][lens-1]=='”':
+            s[1]=s[1].strip('“').strip('”')
+            print(s[1])
+        else:
+            while(i!=bls):
+                if s[1]==a[i][0]:
+                    数字转汉字(i)
+                    print(a[i][3])
+                    break
+                else:
+                    i=i+1
+            if i>=bls:
+                print('没有这个变量')
             i=0
             
 def 如果则(k,s):
@@ -265,10 +295,17 @@ def 使用(s):
     global bls
     global i
     i=0
-    定义变量(s)
-    加减法(s)
-    打印(s)
-    if s[0]=='如果':
+    if len(s)<2:
+        print('输入语句格式有问题,请重新输入')
+    elif s[0]!='看看' and s[1]!='增加' and s[1]!='减少' and s[0]!='如果' and s[0]!='整数':
+        print('没有这种输入语句,请重新输入')
+    else:
+        定义变量(s)
+        加减法(s)
+        打印(s)
+    if s[0]=='如果' and (len(s)<8 or len(s)>12):
+        print('如果语句输入格式错误')
+    elif s[0]=='如果':
         if s[2]=='大于':
             for i in range(bls):
                 if s[1]==a[i][0]:
